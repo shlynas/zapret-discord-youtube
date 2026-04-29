@@ -2,7 +2,7 @@
 
 # <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" height=28 /> <a href="https://github.com/shlynas/">shlynas</a><a href="https://github.com/shlynas/zapret-discord-youtube">/zapret-discord-youtube</a> <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" height=28 />
 
-**NEW**: Ускорение Telegram Desktop - https://github.com/Flowseal/tg-ws-proxy
+**NEW**: Ускорение Telegram Desktop - https://github.com/Flowseal/tg-ws-proxy  
 Оригинальная сборка https://github.com/Flowseal/zapret-discord-youtube  
 Альтернатива https://github.com/bol-van/zapret-win-bundle  
 Альтернатива под Linux https://github.com/kartavkun/zapret-discord-youtube  
