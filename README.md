@@ -2,10 +2,10 @@
 
 # <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" height=28 /> <a href="https://github.com/shlynas/">shlynas</a><a href="https://github.com/shlynas/zapret-discord-youtube">/zapret-discord-youtube</a> <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" height=28 />
 
-**NEW**: Ускорение Telegram Desktop - https://github.com/Flowseal/tg-ws-proxy  
 Оригинальная сборка https://github.com/Flowseal/zapret-discord-youtube  
 Альтернатива https://github.com/bol-van/zapret-win-bundle  
 Альтернатива под Linux https://github.com/kartavkun/zapret-discord-youtube  
+Ускорение Telegram Desktop - https://github.com/Flowseal/tg-ws-proxy  
 Также вы можете материально поддержать оригинального разработчика zapret [тут](https://github.com/bol-van/zapret?tab=readme-ov-file#%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B0)
 </div>
 
@@ -193,7 +193,7 @@ sc delete название_из_первого_шага
 
 ## ⚖️Лицензирование
 
-Проект с соблюдением условий лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)
+Проект с соблюдением условий лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)  
 Проект распространяется на условиях лицензии [MIT](https://github.com/shlynas/zapret-discord-youtube/blob/main/LICENSE.txt)
 
 ## 🩷Благодарность участникам Flowseal/zapret-discord-youtube и shlynas/zapret-discord-youtube
@@ -201,4 +201,4 @@ sc delete название_из_первого_шага
 [![Contributors shlynas/zapret-discord-youtube&Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapret-discord-youtube/graphs/contributors)
 
 💖 Отдельная благодарность разработчику [zapret](https://github.com/bol-van/zapret) - [bol-van](https://github.com/bol-van)  
-💖 Отдельная благодарность автору исходной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal](https://github.com/Flowseal)
+💖 Отдельная благодарность автору оригинальной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal](https://github.com/Flowseal)
