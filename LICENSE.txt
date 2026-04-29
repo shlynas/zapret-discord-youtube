@@ -2,6 +2,7 @@ MIT License
 
 Copyright (c) 2016-2026 bol-van
 Copyright (c) 2024-2026 Flowseal
+Copyright (c) 2026 shlynas
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +26,9 @@ SOFTWARE.
 
 This repository contains binary files originating from the project by bol-van,  
 available at: https://github.com/bol-van/zapret/ (licensed under the MIT License).
+
+This repository contains files originating from the project by Flowseal,  
+available at: https://github.com/Flowseal/zapret-discord-youtube (licensed under the MIT License).
 
 This repository also includes and depends on WinDivert  
 (https://github.com/basil00/WinDivert), which is licensed under your choice of:

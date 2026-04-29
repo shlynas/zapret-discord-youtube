@@ -2,7 +2,8 @@
 
 # <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" height=28 /> <a href="https://github.com/shlynas/">shlynas</a><a href="https://github.com/shlynas/zapret-discord-youtube">/zapret-discord-youtube</a> <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" height=28 />
 
-**NEW**: Ускорение Telegram Desktop - https://github.com/Flowseal/tg-ws-proxy  
+**NEW**: Ускорение Telegram Desktop - https://github.com/Flowseal/tg-ws-proxy
+Оригинальная сборка https://github.com/Flowseal/zapret-discord-youtube  
 Альтернатива https://github.com/bol-van/zapret-win-bundle  
 Альтернатива под Linux https://github.com/kartavkun/zapret-discord-youtube  
 Также вы можете материально поддержать оригинального разработчика zapret [тут](https://github.com/bol-van/zapret?tab=readme-ov-file#%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B0)
@@ -115,7 +116,7 @@
 - `service.bat` -> `Remove Services`
 - `service.bat` -> `Run Diagnostics` (если есть ошибки - устраните их) -> в конце Y
 - Удалите папку с запретом
-- Скачайте последнюю версию [со страницы релизов](https://github.com/Flowseal/zapret-discord-youtube/releases) (`zapret-discord-youtube-...`)
+- Скачайте последнюю версию [со страницы релизов](https://github.com/shlynas/zapret-discord-youtube/releases) (`zapret-discord-youtube-...`)
 - Нажмите пкм по архиву -> свойства. Если снизу справа есть галочка разблокировать, то нажмите на неё -> применить -> ОК
 - Распакуйте в новую папку в корне диска (без спец. символов и пробелов)
 - Далее пробуйте запускать различные `general` скрипты (стратегии). Проверьте доступность интернет ресурсов - если не работают, то закрывайте программу (в панели задач иконка замочка) и пробуйте другую стратегию
@@ -165,7 +166,7 @@ sc delete название_из_первого_шага
 
 ### Не нашли своей проблемы
 
-* Создайте её [тут](https://github.com/Flowseal/zapret-discord-youtube/issues)
+* Создайте её [тут](https://github.com/shlynas/zapret-discord-youtube/issues)
 
 ## 🗒️Добавление адресов прочих ресурсов
 
@@ -182,7 +183,7 @@ sc delete название_из_первого_шага
 
 Также вы можете материально поддержать оригинального разработчика zapret [тут](https://github.com/bol-van/zapret?tab=readme-ov-file#%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B0)
 
-<a href="https://star-history.com/#Flowseal/zapret-discord-youtube&Date">
+<a href="https://star-history.com/#shlynas/zapret-discord-youtube&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=shlynas/zapret-discord-youtube&type=Date&theme=dark" />
    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=shlynas/zapret-discord-youtube&type=Date" />
@@ -192,10 +193,15 @@ sc delete название_из_первого_шага
 
 ## ⚖️Лицензирование
 
-Проект распространяется на условиях лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)
+Проект с соблюдением условий лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)
 
-## 🩷Благодарность участникам проекта
+## 🩷Благодарность участникам Flowseal/zapret-discord-youtube
 
 [![Contributors Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=Flowseal/zapret-discord-youtube)](https://github.com/Flowseal/zapret-discord-youtube/graphs/contributors)
 
+## 🩷Благодарность участникам shlynas/zapret-discord-youtube
+
+[![Contributors shlynas/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapret-discord-youtube/graphs/contributors)
+
 💖 Отдельная благодарность разработчику [zapret](https://github.com/bol-van/zapret) - [bol-van](https://github.com/bol-van)
+💖 Отдельная благодарность автору исходной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal]https://github.com/Flowseal)
