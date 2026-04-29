@@ -878,7 +878,7 @@ chcp 437 > nul
 cls
 
 set "listFile=%~dp0lists\ipset-all.txt"
-set "url=https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/refs/heads/main/.service/ipset-service.txt"
+set "url=https://raw.githubusercontent.com/shlynas/zapret-discord-youtube/refs/heads/main/.service/ipset-service.txt"
 
 echo Updating ipset-all...
 
@@ -906,7 +906,7 @@ chcp 437 > nul
 cls
 
 set "hostsFile=%SystemRoot%\System32\drivers\etc\hosts"
-set "hostsUrl=https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/refs/heads/main/.service/hosts"
+set "hostsUrl=https://raw.githubusercontent.com/shlynas/zapret-discord-youtube/refs/heads/main/.service/hosts"
 set "tempFile=%TEMP%\zapret_hosts.txt"
 set "needsUpdate=0"
 
