@@ -194,14 +194,11 @@ sc delete название_из_первого_шага
 ## ⚖️Лицензирование
 
 Проект с соблюдением условий лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)
+Проект распространяется на условиях лицензии [MIT](https://github.com/shlynas/zapret-discord-youtube/blob/main/LICENSE.txt)
 
-## 🩷Благодарность участникам Flowseal/zapret-discord-youtube
+## 🩷Благодарность участникам Flowseal/zapret-discord-youtube и shlynas/zapret-discord-youtube
 
-[![Contributors Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=Flowseal/zapret-discord-youtube)](https://github.com/Flowseal/zapret-discord-youtube/graphs/contributors)
+[![Contributors shlynas/zapret-discord-youtube&Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapret-discord-youtube/graphs/contributors)
 
-## 🩷Благодарность участникам shlynas/zapret-discord-youtube
-
-[![Contributors shlynas/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapret-discord-youtube/graphs/contributors)
-
-💖 Отдельная благодарность разработчику [zapret](https://github.com/bol-van/zapret) - [bol-van](https://github.com/bol-van)
-💖 Отдельная благодарность автору исходной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal]https://github.com/Flowseal)
+💖 Отдельная благодарность разработчику [zapret](https://github.com/bol-van/zapret) - [bol-van](https://github.com/bol-van)  
+💖 Отдельная благодарность автору исходной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal](https://github.com/Flowseal)
