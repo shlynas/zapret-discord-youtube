@@ -1,5 +1,5 @@
 @echo off
-set "LOCAL_VERSION=1.9.7d"
+set "LOCAL_VERSION=1.9.8"
 
 :: External commands
 if "%~1"=="status_zapret" (
@@ -24,6 +24,11 @@ if "%~1"=="check_updates" (
 
 if "%~1"=="load_game_filter" (
     call :game_switch_status
+    exit /b
+)
+
+if "%~1"=="load_discord_fake" (
+    call :discord_fake_status
     exit /b
 )
 
@@ -58,6 +63,7 @@ cls
 call :ipset_switch_status
 call :game_switch_status
 call :check_updates_switch_status
+call :discord_fake_status
 
 set "menu_choice=null"
 
@@ -74,21 +80,22 @@ echo   :: SETTINGS
 echo      4. Game Filter         [!GameFilterStatus!]
 echo      5. IPSet Filter        [!IPsetStatus!]
 echo      6. Auto-Update Check   [!CheckUpdatesStatus!]
+echo      7. Discord Fake        [!DiscordFakeStatus!]
 echo.
 echo   :: UPDATES
-echo      7. Update IPSet List
-echo      8. Update Hosts File
-echo      9. Check for Updates
+echo      8. Update IPSet List
+echo      9. Update Hosts File
+echo      10. Check for Updates
 echo.
 echo   :: TOOLS
-echo      10. Run Diagnostics
-echo      11. Run Tests
+echo      11. Run Diagnostics
+echo      12. Run Tests
 echo.
 echo   ----------------------------------------
 echo      0. Exit
 echo.
 
-set /p menu_choice=   Select option (0-11): 
+set /p menu_choice=   Select option (0-12): 
 
 if "%menu_choice%"=="1" goto service_install
 if "%menu_choice%"=="2" goto service_remove
@@ -96,11 +103,12 @@ if "%menu_choice%"=="3" goto service_status
 if "%menu_choice%"=="4" goto game_switch
 if "%menu_choice%"=="5" goto ipset_switch
 if "%menu_choice%"=="6" goto check_updates_switch
-if "%menu_choice%"=="7" goto ipset_update
-if "%menu_choice%"=="8" goto hosts_update
-if "%menu_choice%"=="9" goto service_check_updates
-if "%menu_choice%"=="10" goto service_diagnostics
-if "%menu_choice%"=="11" goto run_tests
+if "%menu_choice%"=="7" goto discord_fake_switch
+if "%menu_choice%"=="8" goto ipset_update
+if "%menu_choice%"=="9" goto hosts_update
+if "%menu_choice%"=="10" goto service_check_updates
+if "%menu_choice%"=="11" goto service_diagnostics
+if "%menu_choice%"=="12" goto run_tests
 if "%menu_choice%"=="0" exit /b
 goto menu
 
@@ -263,6 +271,7 @@ set QUOTE="
 for /f "tokens=*" %%a in ('type "!selectedFile!"') do (
     set "line=%%a"
     call set "line=%%line:^!=EXCL_MARK%%"
+    if defined DiscordFake set "line=!line:%%DiscordFake%%=%DiscordFake%!"
 
     echo !line! | findstr /i "%BIN%winws.exe" >nul
     if not errorlevel 1 (
@@ -765,6 +774,61 @@ if "%GameFilterChoice%"=="0" (
     echo tcp>"%gameFlagFile%"
 ) else if "%GameFilterChoice%"=="3" (
     echo udp>"%gameFlagFile%"
+) else (
+    echo Invalid choice, exiting...
+    pause
+    goto menu
+)
+
+call :PrintYellow "Restart the zapret to apply the changes"
+pause
+goto menu
+
+
+:: DISCORD FAKE SWITCH ================
+:discord_fake_status
+chcp 437 > nul
+
+set "discordFakeFlag=%~dp0utils\discord_fake.enabled"
+
+if not exist "%discordFakeFlag%" (
+    set "DiscordFakeStatus=standard"
+    set "DiscordFake=quic_initial_www_google_com.bin"
+    exit /b
+)
+
+set "DiscordFakeMode="
+for /f "usebackq delims=" %%A in ("%discordFakeFlag%") do (
+    if not defined DiscordFakeMode set "DiscordFakeMode=%%A"
+)
+
+if /i "%DiscordFakeMode%"=="alt" (
+    set "DiscordFakeStatus=alternative"
+    set "DiscordFake=quic_initial_dbankcloud_ru.bin"
+) else (
+    set "DiscordFakeStatus=standard"
+    set "DiscordFake=quic_initial_www_google_com.bin"
+)
+exit /b
+
+:discord_fake_switch
+chcp 437 > nul
+cls
+
+echo Select Discord fake payload:
+echo   0. Standard (quic_initial_www_google_com.bin)
+echo   1. Alternative (quic_initial_dbankcloud_ru.bin)
+echo.
+set "DiscordFakeChoice=0"
+set /p "DiscordFakeChoice=Select option (0-1, default: 0): "
+if "%DiscordFakeChoice%"=="" set "DiscordFakeChoice=0"
+
+if "%DiscordFakeChoice%"=="0" (
+    if exist "%discordFakeFlag%" (
+        del /f /q "%discordFakeFlag%"
+    )
+) else if "%DiscordFakeChoice%"=="1" (
+    echo alt>"%discordFakeFlag%"
 ) else (
     echo Invalid choice, exiting...
     pause
