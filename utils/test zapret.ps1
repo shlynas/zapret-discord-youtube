@@ -1,4 +1,13 @@
+param(
+    [switch]$AutoInstall,
+    [switch]$NoPause,
+    [string]$ResultFile,
+    [string]$DoneFile
+)
+
 $hasErrors = $false
+$testFailed = $false
+$autoInstallDoneStatus = ''
 
 $rootDir = Split-Path $PSScriptRoot
 $listsDir = Join-Path $rootDir "lists"
@@ -256,7 +265,7 @@ function Invoke-DpiSuite {
             if ($handle -and $handle.AsyncWaitHandle) {
                 $completed = $handle.AsyncWaitHandle.WaitOne($waitMs)
                 if (-not $completed) {
-                    Write-Host "[WARN] Runspace for [$($rs.TargetId)] timed out after $waitMs ms; stopping runspace..." -ForegroundColor Yellow
+                    if (-not $AutoInstall) { Write-Host "[WARN] Runspace for [$($rs.TargetId)] timed out after $waitMs ms; stopping runspace..." -ForegroundColor Yellow }
                     try { $rs.Powershell.Stop() } catch {}
                 }
             }
@@ -352,19 +361,26 @@ if ($originalIpsetStatus -ne "any") {
     Write-Host "[WARNING] It will be restored automatically on the next script run." -ForegroundColor Yellow
 }
 
-# Check if zapret service installed
-if (Test-ZapretServiceConflict) {
-    Write-Host "[ERROR] Windows service 'zapret' is installed" -ForegroundColor Red
-    Write-Host "         Remove the service before running tests" -ForegroundColor Yellow
-    Write-Host "         Open service.bat and choose 'Remove Services'" -ForegroundColor Yellow
-    $hasErrors = $true
+# Check if zapret service is running (installed+ok for AutoInstall, running=error)
+$svc = Get-Service -Name "zapret" -ErrorAction SilentlyContinue
+if ($svc) {
+    if ($svc.Status -eq 'Running') {
+        Write-Host "[ERROR] Windows service 'zapret' is running" -ForegroundColor Red
+        Write-Host "         Remove/Stop the service before running tests" -ForegroundColor Yellow
+        Write-Host "         Open service.bat and choose 'Remove Services'" -ForegroundColor Yellow
+        $hasErrors = $true
+    } else {
+        Write-Host "[WARNING] Windows service 'zapret' is installed (stopped)" -ForegroundColor Yellow
+    }
 }
 
 if ($hasErrors) {
     Write-Host ""
     Write-Host "Fix the errors above and rerun." -ForegroundColor Yellow
-    Write-Host "Press any key to exit..." -ForegroundColor Yellow
-    [void][System.Console]::ReadKey($true)
+    if (-not $NoPause -and -not $AutoInstall) {
+        Write-Host "Press any key to exit..." -ForegroundColor Yellow
+        [void][System.Console]::ReadKey($true)
+    }
     exit 1
 }
 
@@ -373,7 +389,7 @@ $dpiTargets = Build-DpiTargets -CustomHost $dpiCustomHost
 # Config
 $targetDir = $rootDir
 if (-not $targetDir) { $targetDir = Split-Path -Parent $MyInvocation.MyCommand.Path }
-$batFiles = Get-ChildItem -Path $targetDir -Filter "*.bat" | Where-Object { $_.Name -notlike "service*" } | Sort-Object { [Regex]::Replace($_.Name, "(\d+)", { $args[0].Value.PadLeft(8, "0") }) }
+$batFiles = Get-ChildItem -Path $targetDir -Filter "general*.bat" | Sort-Object { [Regex]::Replace($_.Name, "(\d+)", { $args[0].Value.PadLeft(8, "0") }) }
 
 $globalResults = @()
 
@@ -486,11 +502,16 @@ function Read-ConfigSelection {
 
 while ($true) {
     $globalResults = @()
-$testType = Read-TestType
-$mode = Read-ModeSelection
-if ($mode -eq 'select') {
-    $selected = Read-ConfigSelection -allFiles $batFiles
-    $batFiles = @($selected)
+if ($AutoInstall) {
+    $testType = 'standard'
+    $mode = 'all'
+} else {
+    $testType = Read-TestType
+    $mode = Read-ModeSelection
+    if ($mode -eq 'select') {
+        $selected = Read-ConfigSelection -allFiles $batFiles
+        $batFiles = @($selected)
+    }
 }
 
 # Load targets once for standard mode
@@ -543,8 +564,10 @@ if ($testType -eq 'standard') {
 # Ensure we have configs to run
 if (-not $batFiles -or $batFiles.Count -eq 0) {
     Write-Host "[ERROR] No general*.bat files found" -ForegroundColor Red
-    Write-Host "Press any key to exit..." -ForegroundColor Yellow
-    [void][System.Console]::ReadKey($true)
+    if (-not $NoPause -and -not $AutoInstall) {
+        Write-Host "Press any key to exit..." -ForegroundColor Yellow
+        [void][System.Console]::ReadKey($true)
+    }
     exit 1
 }
 
@@ -596,14 +619,20 @@ function Restore-WinwsSnapshot {
 $env:NO_UPDATE_CHECK = "1"
 $originalWinws = Get-WinwsSnapshot
 
-Write-Host ""
-Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "                 ZAPRET CONFIG TESTS" -ForegroundColor Cyan
-Write-Host "                 Mode: $($testType.ToUpper())" -ForegroundColor Cyan
-Write-Host "                 Total configs: $($batFiles.Count.ToString().PadLeft(2))" -ForegroundColor Cyan
-Write-Host "============================================================" -ForegroundColor Cyan
+if (-not $AutoInstall) {
+    Write-Host ""
+    Write-Host "============================================================" -ForegroundColor Cyan
+    Write-Host "                 ZAPRET CONFIG TESTS" -ForegroundColor Cyan
+    Write-Host "                 Mode: $($testType.ToUpper())" -ForegroundColor Cyan
+    Write-Host "                 Total configs: $($batFiles.Count.ToString().PadLeft(2))" -ForegroundColor Cyan
+    Write-Host "============================================================" -ForegroundColor Cyan
+}
 
 try {
+    # Create empty result file early so bat wait loop won't hang if we crash
+    if ($AutoInstall -and $ResultFile) {
+        [System.IO.File]::WriteAllText($ResultFile, '', [System.Text.Encoding]::ASCII)
+    }
     # Save original ipset status and switch to 'any' for accurate DPI tests
     if (($originalIpsetStatus -ne "any") -and ($testType -eq 'dpi')) {
         Write-Host "[WARNING] Ipset is in '$originalIpsetStatus' mode. Switching to 'any' for accurate DPI tests..." -ForegroundColor Yellow
@@ -611,21 +640,26 @@ try {
         # Create flag file to indicate ipset was switched
         "" | Out-File -FilePath $ipsetFlagFile -Encoding UTF8
     }
-    Write-Host "[WARNING] Tests may take several minutes to complete. Please wait..." -ForegroundColor Yellow
+    if (-not $AutoInstall) { Write-Host "[WARNING] Tests may take several minutes to complete. Please wait..." -ForegroundColor Yellow }
 
     $configNum = 0
     foreach ($file in $batFiles) {
     $configNum++
-    Write-Host ""
-    Write-Host "------------------------------------------------------------" -ForegroundColor DarkCyan
-    Write-Host "  [$configNum/$($batFiles.Count)] $($file.Name)" -ForegroundColor Yellow
-    Write-Host "------------------------------------------------------------" -ForegroundColor DarkCyan
+    
+    if ($AutoInstall) {
+        Write-Host ("  [$configNum/$($batFiles.Count)] $($file.Name)" + ' ' * 30 + "`r") -NoNewline -ForegroundColor Yellow
+    } else {
+        Write-Host ""
+        Write-Host "------------------------------------------------------------" -ForegroundColor DarkCyan
+        Write-Host "  [$configNum/$($batFiles.Count)] $($file.Name)" -ForegroundColor Yellow
+        Write-Host "------------------------------------------------------------" -ForegroundColor DarkCyan
+    }
     
     # Cleanup
     Stop-Zapret
     
     # Start config
-    Write-Host "  > Starting config..." -ForegroundColor Cyan
+    if (-not $AutoInstall) { Write-Host "  > Starting config..." -ForegroundColor Cyan }
     $proc = Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$($file.FullName)`"" -WorkingDirectory $targetDir -PassThru -WindowStyle Minimized
     
     # Wait init
@@ -722,7 +756,7 @@ try {
         }
 
         $script:currentLine = "  > Running tests..."
-        Write-Host $script:currentLine -ForegroundColor DarkGray
+        if (-not $AutoInstall) { Write-Host $script:currentLine -ForegroundColor DarkGray }
 
         $targetResults = @()
         foreach ($rs in $runspaces) {
@@ -732,7 +766,7 @@ try {
                 if ($handle -and $handle.AsyncWaitHandle) {
                     $completed = $handle.AsyncWaitHandle.WaitOne($waitMs)
                     if (-not $completed) {
-                        Write-Host "[WARN] Runspace for target timed out after $waitMs ms; stopping runspace..." -ForegroundColor Yellow
+                        if (-not $AutoInstall) { Write-Host "[WARN] Runspace for target timed out after $waitMs ms; stopping runspace..." -ForegroundColor Yellow }
                         try { $rs.Powershell.Stop() } catch {}
                     }
                 }
@@ -743,7 +777,7 @@ try {
             try {
                 $targetResults += $rs.Powershell.EndInvoke($rs.Handle)
             } catch {
-                Write-Host "[WARN] EndInvoke failed for a runspace; treating as failure." -ForegroundColor Yellow
+                if (-not $AutoInstall) { Write-Host "[WARN] EndInvoke failed for a runspace; treating as failure." -ForegroundColor Yellow }
                 $targetResults += [PSCustomObject]@{ Name = 'UNKNOWN'; HttpTokens = @('HTTP:ERROR'); PingResult = 'Timeout'; IsUrl = $true }
             }
             $rs.Powershell.Dispose()
@@ -758,6 +792,8 @@ try {
         foreach ($target in $targetList) {
             $res = $targetLookup[$target.Name]
             if (-not $res) { continue }
+
+            if ($AutoInstall) { continue }
 
             Write-Host "  $($target.Name.PadRight($maxNameLen))    " -NoNewline
 
@@ -792,7 +828,7 @@ try {
 
         $globalResults += @{ Config = $file.Name; Type = 'standard'; Results = $targetResults }
     } else {
-        Write-Host "  > Running DPI checkers..." -ForegroundColor DarkGray
+        if (-not $AutoInstall) { Write-Host "  > Running DPI checkers..." -ForegroundColor DarkGray }
         $dpiResults = Invoke-DpiSuite -Targets $dpiTargets -TimeoutSeconds $dpiTimeoutSeconds -RangeBytes $dpiRangeBytes -MaxParallel $dpiMaxParallel
         $globalResults += @{ Config = $file.Name; Type = 'dpi'; Results = $dpiResults }
     }
@@ -800,6 +836,19 @@ try {
     # Stop
     Stop-Zapret
     if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue }
+
+    # AutoInstall: overwrite config line with brief result
+    if ($AutoInstall -and $testType -eq 'standard') {
+        $okC = 0; $errC = 0; $unsC = 0; $pokC = 0; $pfailC = 0
+        foreach ($tr in $targetResults) {
+            if ($tr.IsUrl) { foreach ($tk in $tr.HttpTokens) {
+                if ($tk -match "OK") { $okC++ } elseif ($tk -match "SSL" -or $tk -match "ERROR") { $errC++ } elseif ($tk -match "UNSUP") { $unsC++ }
+            }}
+            if ($tr.PingResult -ne "Timeout" -and $tr.PingResult -ne "n/a") { $pokC++ } else { $pfailC++ }
+        }
+        $summary = "OK:$okC ERR:$errC UNSUP:$unsC Ping:$pokC Fail:$pfailC"
+        Write-Host ("`r  [$configNum/$($batFiles.Count)] $($file.Name)  $summary" + ' ' * 20) -ForegroundColor Cyan
+    }
 }
 
     Write-Host ""
@@ -836,14 +885,16 @@ try {
         }
     }
 
-    Write-Host ""
-    Write-Host "=== ANALYTICS ===" -ForegroundColor Cyan
-    foreach ($config in $analytics.Keys) {
-        $a = $analytics[$config]
-        if ($a.ContainsKey('PingOK')) {
-            Write-Host "$config : HTTP OK: $($a.OK), ERR: $($a.ERROR), UNSUP: $($a.UNSUP), Ping OK: $($a.PingOK), Fail: $($a.PingFail)" -ForegroundColor Yellow
-        } else {
-            Write-Host "$config : OK: $($a.OK), FAIL: $($a.FAIL), UNSUP: $($a.UNSUPPORTED), BLOCKED: $($a.LIKELY_BLOCKED)" -ForegroundColor Yellow
+    if (-not $AutoInstall) {
+        Write-Host ""
+        Write-Host "=== ANALYTICS ===" -ForegroundColor Cyan
+        foreach ($config in $analytics.Keys) {
+            $a = $analytics[$config]
+            if ($a.ContainsKey('PingOK')) {
+                Write-Host "$config : HTTP OK: $($a.OK), ERR: $($a.ERROR), UNSUP: $($a.UNSUP), Ping OK: $($a.PingOK), Fail: $($a.PingFail)" -ForegroundColor Yellow
+            } else {
+                Write-Host "$config : OK: $($a.OK), FAIL: $($a.FAIL), UNSUP: $($a.UNSUPPORTED), BLOCKED: $($a.LIKELY_BLOCKED)" -ForegroundColor Yellow
+            }
         }
     }
 
@@ -870,8 +921,29 @@ try {
         }
     }
     Write-Host ""
-    Write-Host "Best config: $bestConfig" -ForegroundColor Green
+    if ($AutoInstall) {
+        Write-Host "Best strategy: $bestConfig" -ForegroundColor Green
+    } else {
+        Write-Host "Best strategy: $bestConfig" -ForegroundColor Green
+    }
     Write-Host ""
+
+    if ($AutoInstall) {
+        if ($ResultFile) {
+            if ($bestConfig) {
+                [System.IO.File]::WriteAllText($ResultFile, $bestConfig, [System.Text.Encoding]::ASCII)
+                $autoInstallDoneStatus = 'OK'
+            } else {
+                [System.IO.File]::WriteAllText($ResultFile, '', [System.Text.Encoding]::ASCII)
+                $autoInstallDoneStatus = 'EMPTY'
+            }
+        } else {
+            Write-Output $bestConfig
+            $autoInstallDoneStatus = 'OK'
+        }
+        Start-Sleep -Seconds 5
+        break
+    }
 
     # Save to file
     $dateStr = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
@@ -894,13 +966,20 @@ try {
             foreach ($targetRes in $results) {
                 $id = $targetRes.TargetId
                 $provider = $targetRes.Provider
-                Add-Content $resultFile "  Target: $id ($provider)"
+                $country = $targetRes.Country
+                if ($country) {
+                    Add-Content $resultFile "  Target: [$country] $id ($provider)"
+                } else {
+                    Add-Content $resultFile "  Target: $id ($provider)"
+                }
                 foreach ($line in $targetRes.Lines) {
                     $test = $line.TestLabel
                     $code = $line.Code
-                    $size = $line.SizeKB
+                    $up = $line.UpKB
+                    $down = $line.DownKB
+                    $time = $line.Time
                     $status = $line.Status
-                    Add-Content $resultFile "    ${test}: code=${code} size=${size} KB status=${status}"
+                    Add-Content $resultFile "    ${test}: code=${code}  up=${up} KB  down=${down} KB  time=${time}s  status=${status}"
                 }
             }
         }
@@ -920,14 +999,21 @@ try {
 
     Add-Content $resultFile "Best strategy: $bestConfig"
 
-    Write-Host "Results saved to $resultFile" -ForegroundColor Green
+    if (-not $AutoInstall) {
+        Write-Host "Results saved to $resultFile" -ForegroundColor Green
+    }
 
 } catch {
+    $testFailed = $true
     Write-Host "[ERROR] An error occurred during tests. Restoring ipset..." -ForegroundColor Red
     if ($originalIpsetStatus -and $originalIpsetStatus -ne "any") {
         Set-IpsetMode -mode "restore"
     }
     Remove-Item -Path $ipsetFlagFile -ErrorAction SilentlyContinue
+    if ($AutoInstall -and $ResultFile) {
+        [System.IO.File]::WriteAllText($ResultFile, '', [System.Text.Encoding]::ASCII)
+        $autoInstallDoneStatus = 'ERROR'
+    }
 } finally {
     Stop-Zapret
     Restore-WinwsSnapshot -snapshot $originalWinws
@@ -936,9 +1022,20 @@ try {
         Set-IpsetMode -mode "restore"
     }
     Remove-Item -Path $ipsetFlagFile -ErrorAction SilentlyContinue
+    if ($AutoInstall -and $DoneFile) {
+        if (-not $autoInstallDoneStatus) { $autoInstallDoneStatus = 'ERROR' }
+        [System.IO.File]::WriteAllText($DoneFile, $autoInstallDoneStatus, [System.Text.Encoding]::ASCII)
+    }
 }
 
-    Write-Host "Press any key to close..." -ForegroundColor Yellow
-    [void][System.Console]::ReadKey($true)
-    exit
+    if (-not $NoPause -and -not $AutoInstall) {
+        Write-Host "Press any key to close..." -ForegroundColor Yellow
+        [void][System.Console]::ReadKey($true)
+    }
+
+    if ($testFailed) {
+        exit 1
+    }
+
+    exit 0
 }
