@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" height=28 /> <a href="https://github.com/shlynas/">shlynas</a><a href="https://github.com/shlynas/zapret-discord-youtube">/zapret-discord-youtube</a> <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" height=28 />
+# <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" height=28 /> <a href="https://github.com/shlynas/">shlynas</a><a href="https://github.com/shlynas/zapdy">/zapdy</a> <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" height=28 />
 
 Оригинальная сборка https://github.com/Flowseal/zapret-discord-youtube  
 Альтернатива https://github.com/bol-van/zapret-win-bundle  
@@ -31,7 +31,7 @@
 > В случае проблем с антивирусом добавьте папку с запретом в исключения, либо отключите детектирование PUA (потенциально нежелательных приложений). Например, в касперском есть галочка "Обнаруживать легальные приложения, которые злоумышленники часто используют для нанесения вреда". При аккуратной и правильной настройке исключений - рекомендуется настроить исключение, но если вы не до конца понимаете что делаете - рекомендуется отключить детект PUA.
 
 > [!IMPORTANT]
-> Все бинарные файлы в папке [`bin`](./bin) взяты из [zapret-win-bundle/zapret-winws](https://github.com/bol-van/zapret-win-bundle/tree/master/zapret-winws), [zapret/releases](https://github.com/bol-van/zapret/releases) и [Flowsael/zapret-discord-youtube](https://github.com/Flowseal/zapret-discord-youtube/releases/). Вы можете это проверить с помощью хэшей/контрольных сумм. Проверяйте, что запускаете, используя сборки из интернета!
+> Все бинарные файлы в папке [`bin`](./bin) взяты из [zapret-win-bundle/zapret-winws](https://github.com/bol-van/zapret-win-bundle/tree/master/zapret-winws), [zapret/releases](https://github.com/bol-van/zapret/releases) и [Flowsael/zapret-discord-youtube](https://github.com/Flowseal/zapdy/releases/). Вы можете это проверить с помощью хэшей/контрольных сумм. Проверяйте, что запускаете, используя сборки из интернета!
 ## ⚙️Использование
 
 1. Включите Secure DNS
@@ -39,7 +39,7 @@
     * В Firefox - "Включить DNS через HTTPS, используя: Максимальную защиту", затем "Выбрать поставщика" и вписать URL поставщика вручную, например можно использовать `https://dns.google/dns-query` (т.к. поставщик Cloudflare может быть заблокирован)
     * В Windows 11 поддерживается включение Secure DNS прямо в настройках ОС - [инструкция тут](https://www.howtogeek.com/765940/how-to-enable-dns-over-https-on-windows-11/). Рекомендуется, если вы пользуетесь Windows 11
 
-2. Скачайте архив (zip/rar) со [страницы последнего релиза](https://github.com/shlynas/zapret-discord-youtube/releases/latest)
+2. Скачайте архив (zip/rar) со [страницы последнего релиза](https://github.com/shlynas/zapdy/releases/latest)
 
 3. Зайдите в свойства скачанного архива и поставьте галочку "Разблокировать". Если вы используете архиватор 7-Zip или PeaZip, этот шаг можно пропустить
 
@@ -122,7 +122,7 @@
 - `service.bat` -> `Remove Services`
 - `service.bat` -> `Run Diagnostics` (если есть ошибки - устраните их) -> в конце Y
 - Удалите папку с запретом
-- Скачайте последнюю версию [со страницы релизов](https://github.com/shlynas/zapret-discord-youtube/releases) (`zapret-discord-youtube-...`)
+- Скачайте последнюю версию [со страницы релизов](https://github.com/shlynas/zapdy/releases) (`zapret-discord-youtube-...`)
 - Нажмите пкм по архиву -> свойства. Если снизу справа есть галочка разблокировать, то нажмите на неё -> применить -> ОК
 - Распакуйте в новую папку в корне диска (без спец. символов и пробелов)
 - Далее пробуйте запускать различные `general` скрипты (стратегии). Проверьте доступность интернет ресурсов - если не работают, то закрывайте программу (в панели задач иконка замочка) и пробуйте другую стратегию
@@ -172,7 +172,7 @@ sc delete название_из_первого_шага
 
 ### Не нашли своей проблемы
 
-* Создайте её [тут](https://github.com/shlynas/zapret-discord-youtube/issues)
+* Создайте её [тут](https://github.com/shlynas/zapdy/issues)
 
 ## 🗒️Добавление адресов прочих ресурсов
 
@@ -191,20 +191,20 @@ sc delete название_из_первого_шага
 
 <a href="https://star-history.com/#shlynas/zapret-discord-youtube&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=shlynas/zapret-discord-youtube&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=shlynas/zapret-discord-youtube&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=shlynas/zapret-discord-youtube&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=shlynas/zapdy&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=shlynas/zapdy&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=shlynas/zapdy&type=Date" />
  </picture>
 </a>
 
 ## ⚖️Лицензирование
 
 Проект с соблюдением условий лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)  
-Проект распространяется на условиях лицензии [MIT](https://github.com/shlynas/zapret-discord-youtube/blob/main/LICENSE.txt)
+Проект распространяется на условиях лицензии [MIT](https://github.com/shlynas/zapdy/blob/main/LICENSE.txt)
 
 ## 🩷Благодарность участникам Flowseal/zapret-discord-youtube и shlynas/zapret-discord-youtube
 
-[![Contributors shlynas/zapret-discord-youtube&Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapret-discord-youtube/graphs/contributors)
+[![Contributors shlynas/zapret-discord-youtube&Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapdy/graphs/contributors)
 
 💖 Отдельная благодарность разработчику [zapret](https://github.com/bol-van/zapret) - [bol-van](https://github.com/bol-van)  
 💖 Отдельная благодарность автору оригинальной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal](https://github.com/Flowseal)
