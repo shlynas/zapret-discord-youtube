@@ -188,23 +188,23 @@ sc delete название_из_первого_шага
 Вы можете поддержать проект, поставив :star: этому репозиторию (сверху справа этой страницы)
 
 Также вы можете материально поддержать оригинального разработчика zapret [тут](https://github.com/bol-van/zapret?tab=readme-ov-file#%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B0)
+## Star History
 
-<a href="https://star-history.com/#shlynas/zapdy&Date">
+<a href="https://www.star-history.com/?repos=shlynas%2Fzapdy&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=shlynas/zapdy&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=shlynas/zapdy&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=shlynas/zapdy&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=shlynas/zapdy&type=date&theme=dark&legend=top-left&sealed_token=2NmThd2-SjF4vbXYWsb63ydWExHGRASjRX1iV3MSeUtROYzscL-0wPgh_B5Bi700NiY90tHMHkIaSiErPrkExRUqXlx4rlcOxlmaX7ZQClKVqqjD8we8hLJ2KfxYnBn9OdaCPcs1I8Z0JKKfAZNePX3Ig9wfIe-4yQEP-pBUh2PlOUN-TyxMYzaXUaht" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=shlynas/zapdy&type=date&legend=top-left&sealed_token=2NmThd2-SjF4vbXYWsb63ydWExHGRASjRX1iV3MSeUtROYzscL-0wPgh_B5Bi700NiY90tHMHkIaSiErPrkExRUqXlx4rlcOxlmaX7ZQClKVqqjD8we8hLJ2KfxYnBn9OdaCPcs1I8Z0JKKfAZNePX3Ig9wfIe-4yQEP-pBUh2PlOUN-TyxMYzaXUaht" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=shlynas/zapdy&type=date&legend=top-left&sealed_token=2NmThd2-SjF4vbXYWsb63ydWExHGRASjRX1iV3MSeUtROYzscL-0wPgh_B5Bi700NiY90tHMHkIaSiErPrkExRUqXlx4rlcOxlmaX7ZQClKVqqjD8we8hLJ2KfxYnBn9OdaCPcs1I8Z0JKKfAZNePX3Ig9wfIe-4yQEP-pBUh2PlOUN-TyxMYzaXUaht" />
  </picture>
 </a>
 
 ## ⚖️Лицензирование
-
-Проект с соблюдением условий лицензии [MIT](https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt)  
+  
 Проект распространяется на условиях лицензии [MIT](https://github.com/shlynas/zapdy/blob/main/LICENSE.txt)
 
-## 🩷Благодарность участникам Flowseal/zapret-discord-youtube и shlynas/zapret-discord-youtube
+## 🩷Благодарность участникам Flowseal/zapret-discord-youtube и shlynas/zapdy
 
-[![Contributors shlynas/zapret-discord-youtube&Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapret-discord-youtube)](https://github.com/shlynas/zapdy/graphs/contributors)
+[![Contributors shlynas/zapret-discord-youtube&Flowseal/zapret-discord-youtube](https://contrib.rocks/image?repo=shlynas/zapdy)](https://github.com/shlynas/zapdy/graphs/contributors)
 
 💖 Отдельная благодарность разработчику [zapret](https://github.com/bol-van/zapret) - [bol-van](https://github.com/bol-van)  
 💖 Отдельная благодарность автору оригинальной [сборки](https://github.com/Flowseal/zapret-discord-youtube) - [Flowseal](https://github.com/Flowseal)
